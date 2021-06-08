@@ -1,0 +1,27 @@
+{
+  "data": [
+    {
+      "brand": "Samsung",
+      "best_buy_202101": "382",
+      "best_buy_202101_percent": "24",
+      "best_buy_202102": "387",
+      "best_buy_202102_percent": "24",
+      "best_buy_202103": "394",
+      "best_buy_202103_percent": "24",
+      "lowes_202101": "335",
+      "lowes_202101_percent": "18",
+      "lowes_202102": "337",
+      "lowes_202102_percent": "18",
+      "lowes_202103": "337",
+      "lowes_202103_percent": "18",
+      "home_depot_202101": "214",
+      "home_depot_202101_percent": "19",
+      "home_depot_202102": "227",
+      "home_depot_202102_percent": "20",
+      "home_depot_202103": "233",
+      "home_depot_202103_percent": "20",
+      "total": 2846,
+      "total_percent": "21"
+    }
+  ]
+}

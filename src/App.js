@@ -1,25 +1,21 @@
-import logo from "./logo.svg";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [allBrands, setAllBrands] = useState(null);
+
+  useEffect(() => {
+    fetch("./data.json")
+      .then((res) => res.json())
+      .then(setAllBrands)
+      .catch(console.error);
+  }, []);
+
+  if (allBrands) {
+    return <div>{JSON.stringify(allBrands.data)}</div>;
+  }
+
+  return <div>No data available.</div>;
 }
 
 export default App;
