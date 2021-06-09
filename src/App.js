@@ -94,6 +94,7 @@ export function TableBody({ data, order }) {
 
 function App() {
   const [allBrands, setAllBrands] = useState(null);
+  const [numType, setNumType] = useState(`count`);
 
   useEffect(() => {
     fetch("./data.json")
@@ -126,10 +127,40 @@ function App() {
       return obj;
     });
     return (
-      <table>
-        <TableHead headers={capitalized} />
-        <TableBody data={allBrands.data} order={dataOrder} />
-      </table>
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <div
+              className="btn-group"
+              role="group"
+              aria-label="Switch between number types"
+            >
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => {
+                  setNumType(`count`);
+                }}
+              >
+                Count
+              </button>
+              <button
+                type="button"
+                className="btn btn-outline-primary"
+                onClick={() => {
+                  setNumType(`percent`);
+                }}
+              >
+                Percent
+              </button>
+            </div>
+            <table className="table align-middle">
+              <TableHead headers={capitalized} />
+              <TableBody data={allBrands.data} order={dataOrder} />
+            </table>
+          </div>
+        </div>
+      </div>
     );
   }
 
