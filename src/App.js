@@ -72,7 +72,7 @@ export function TableHead({ headers }) {
   );
 }
 
-export function TableBody({ data, order }) {
+export function TableBody({ data, order, numType }) {
   return (
     <tbody>
       {data.map((row) => {
@@ -81,10 +81,14 @@ export function TableBody({ data, order }) {
           <tr key={row.brand}>
             <td>{row.brand}</td>
             {order.map((item) => {
+              if (numType === `count`) {
+                // noinspection JSUnresolvedVariable
+                return <td key={row.brand + item}>{row[item]}</td>;
+              }
               // noinspection JSUnresolvedVariable
-              return <td key={row.brand + item}>{row[item]}</td>;
+              return <td key={row.brand + item}>{row[`${item}_percent`]}</td>;
             })}
-            <td>{row.total}</td>
+            <td>{numType === `count` ? row.total : row.total_percent}</td>
           </tr>
         );
       })}
@@ -126,6 +130,7 @@ function App() {
       }
       return obj;
     });
+
     return (
       <div className="container">
         <div className="row">
@@ -154,9 +159,14 @@ function App() {
                 Percent
               </button>
             </div>
+
             <table className="table align-middle">
               <TableHead headers={capitalized} />
-              <TableBody data={allBrands.data} order={dataOrder} />
+              <TableBody
+                data={allBrands.data}
+                order={dataOrder}
+                numType={numType}
+              />
             </table>
           </div>
         </div>
