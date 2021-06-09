@@ -88,12 +88,12 @@ export function TableBody({ data, order, numType }) {
             {order.map((item) => {
               if (numType === `count`) {
                 // noinspection JSUnresolvedVariable
-                return <td key={row.brand + item}>{row[item]}</td>;
+                return <td key={row.brand + item}>{convertCount(row[item])}</td>;
               }
               // noinspection JSUnresolvedVariable
-              return <td key={row.brand + item}>{row[`${item}_percent`]}</td>;
+              return <td key={row.brand + item}>{row[`${item}_percent`]}%</td>;
             })}
-            <td>{numType === `count` ? row.total : row.total_percent}</td>
+            <td>{numType === `count` ? convertCount(row.total) : `${row.total_percent}%`}</td>
           </tr>
         );
       })}
