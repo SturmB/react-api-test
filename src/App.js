@@ -40,6 +40,11 @@ export function convertMonths(arr) {
   return arr.map((date) => convertMonth(date));
 }
 
+export function convertCount(str) {
+  const num = parseInt(str);
+  return num.toLocaleString(`default`);
+}
+
 export function TableHead({ headers }) {
   return (
     <thead>

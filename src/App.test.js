@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import App, { splitArray, properName, convertMonth, convertMonths } from "./App";
+import App, { splitArray, properName, convertMonth, convertMonths, convertCount } from "./App";
 
 // test(`gets store name only from raw string`, () => {
 //   expect(getStore(`best_buy_202101_percent`, /\d{6}/)).toMatch(/best_buy/);
@@ -32,4 +32,9 @@ test(`converts raw number into 3-letter month abbreviation`, () => {
 
 test(`converts array of raw numbers into 3-letter month abbreviations`, () => {
   expect(convertMonths([`202101`, `202102`, `202103`])).toEqual([`Jan`, `Feb`, `Mar`]);
+});
+
+test(`converts number or string to a formatted string representation of a number`, () => {
+  expect(convertCount(`2846`)).toMatch(/2,846/);
+  expect(convertCount(2846)).toMatch(/2,846/);
 });
