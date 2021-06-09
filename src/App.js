@@ -81,6 +81,7 @@ export function TableBody({ data, order }) {
           <tr key={row.brand}>
             <td>{row.brand}</td>
             {order.map((item) => {
+              // noinspection JSUnresolvedVariable
               return <td key={row.brand + item}>{row[item]}</td>;
             })}
             <td>{row.total}</td>
@@ -102,7 +103,6 @@ function App() {
   }, []);
 
   if (allBrands) {
-    console.log(allBrands.data[0]);
     const columnsRaw = Object.entries(allBrands.data[0])
       .map((point) => {
         if (!/percent/.test(point[0])) {
@@ -117,7 +117,6 @@ function App() {
         dataOrder.push(column);
       }
     });
-    console.log(dataOrder);
     const structured = splitArray(columnsRaw);
     const capitalized = structured.map((obj) => {
       obj.name = properName(obj.name);
@@ -126,7 +125,6 @@ function App() {
       }
       return obj;
     });
-    console.log(capitalized);
     return (
       <table>
         <TableHead headers={capitalized} />
