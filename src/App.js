@@ -165,7 +165,7 @@ function App() {
               </button>
             </div>
 
-            <table className="table align-middle">
+            <table className="table">
               <TableHead headers={capitalized} />
               <TableBody
                 data={allBrands.data}
