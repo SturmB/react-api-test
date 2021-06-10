@@ -47,27 +47,43 @@ export function convertCount(str) {
 
 export function TableHead({ headers }) {
   return (
-    <thead>
+    <thead className="bg-white">
       <tr>
-        <th rowSpan={2}>{headers[0].name}</th>
+        <th rowSpan={2} className="rounded-start border-end">
+          {headers[0].name}
+        </th>
         {headers.map((store) => {
           if (store.hasOwnProperty(`months`)) {
             return (
-              <th key={store.name} colSpan={Object.keys(store.months).length}>
+              <th
+                key={store.name}
+                colSpan={Object.keys(store.months).length}
+                className="border-bottom border-end"
+              >
                 {store.name}
               </th>
             );
           }
           return null;
         })}
-        <th rowSpan={2}>{headers[headers.length - 1].name}</th>
+        <th rowSpan={2} className="rounded-end">
+          {headers[headers.length - 1].name}
+        </th>
       </tr>
       <tr>
         {headers.map((store) => {
           if (store.hasOwnProperty(`months`)) {
             // noinspection JSUnresolvedVariable
-            return store.months.map((month) => {
-              return <th key={store.name + `-` + month}>{month}</th>;
+            return store.months.map((month, index, array) => {
+              let borderClass = ``;
+              if (index === array.length - 1) {
+                borderClass = `border-end`;
+              }
+              return (
+                <th key={store.name + `-` + month} className={borderClass}>
+                  {month}
+                </th>
+              );
             });
           }
           return null;
@@ -79,21 +95,27 @@ export function TableHead({ headers }) {
 
 export function TableBody({ data, order, numType }) {
   return (
-    <tbody>
+    <tbody className="bg-white">
       {data.map((row) => {
         // noinspection JSUnresolvedVariable
         return (
           <tr key={row.brand}>
-            <td>{row.brand}</td>
+            <td className="rounded-start">{row.brand}</td>
             {order.map((item) => {
               if (numType === `count`) {
                 // noinspection JSUnresolvedVariable
-                return <td key={row.brand + item}>{convertCount(row[item])}</td>;
+                return (
+                  <td key={row.brand + item}>{convertCount(row[item])}</td>
+                );
               }
               // noinspection JSUnresolvedVariable
               return <td key={row.brand + item}>{row[`${item}_percent`]}%</td>;
             })}
-            <td>{numType === `count` ? convertCount(row.total) : `${row.total_percent}%`}</td>
+            <td className="rounded-end">
+              {numType === `count`
+                ? convertCount(row.total)
+                : `${row.total_percent}%`}
+            </td>
           </tr>
         );
       })}
@@ -165,7 +187,7 @@ function App() {
               </button>
             </div>
 
-            <table className="table">
+            <table className="table table-borderless">
               <TableHead headers={capitalized} />
               <TableBody
                 data={allBrands.data}
