@@ -45,79 +45,102 @@ export function convertCount(str) {
   return num.toLocaleString(`default`);
 }
 
-export function TableHead({ headers }) {
+export function DataTable({ headers, data, order, numColumns, numType }) {
+  const styleGrid = {
+    gridTemplateColumns: `repeat(${numColumns}, auto)`,
+    gridTemplateRows: `repeat(${data.length + 2}, auto)`,
+  };
+  const firstHeader = {
+    gridArea: `1 / 1 / span 2 / 2`,
+  };
+  const lastHeader = {
+    gridArea: `1 / ${numColumns} / span 2 / span 1`,
+  };
+
   return (
-    <div className="row row-cols-11">
-      <div className="col rounded-start border-end">{headers[0].name}</div>
-      {headers.map((store) => {
+    <div className="grid bg-white" style={styleGrid}>
+      <div className="rounded-start border-end" style={firstHeader}>{headers[0].name}</div>
+      {headers.map((store, storeIndex) => {
         if (store.hasOwnProperty(`months`)) {
+          const colspan = store.months.length;
+          const startLine = (storeIndex - 1) * colspan + 2;
+          const styleColSpan = {
+            gridArea: `1 / ${startLine} / 2 / span ${colspan}`,
+          };
           return (
-            <div className="col">
-              <div className="row">
-                <div className="col border-bottom border-end" key={store.name}>
-                  {store.name}
-                </div>
+            <>
+              <div
+                key={store.name}
+                className="border-bottom border-end"
+                style={styleColSpan}
+              >
+                {store.name}
               </div>
-              <div className="row">
-                {store.months.map((month) => {
-                  return (
-                    <div className="col" key={store.name + `-` + month}>
-                      {month}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+              {store.months.map((month, monthIndex, monthArray) => {
+                const styleMonth = {
+                  gridArea: `2 / ${startLine + monthIndex} / 3 / ${
+                    startLine + monthIndex + 1
+                  }`,
+                };
+                let borderClass = ``;
+                if (monthIndex === monthArray.length - 1) {
+                  borderClass = `border-end`;
+                }
+                return (
+                  <div
+                    key={store.name + `-` + month}
+                    className={borderClass}
+                    style={styleMonth}
+                  >
+                    {month}
+                  </div>
+                );
+              })}
+            </>
           );
         }
         return null;
       })}
-      <div className="col rounded-end">{headers[headers.length - 1].name}</div>
-    </div>
-    // return store.months.map((month, index, array) => {
-    //   let borderClass = ``;
-    //   if (index === array.length - 1) {
-    //     borderClass = `border-end`;
-    //   }
-    //   return (
-    //     <th key={store.name + `-` + month} className={borderClass}>
-    //       {month}
-    //     </th>
-    //   );
-    // });
-  );
-}
-
-export function TableBody({ data, order, numType }) {
-  return data.map((row) => {
-    // noinspection JSUnresolvedVariable
-    return (
-      <div className="row" key={row.brand}>
-        <div className="col rounded-start">{row.brand}</div>
-        {order.map((item) => {
-          if (numType === `count`) {
-            // noinspection JSUnresolvedVariable
-            return (
-              <div className="col" key={row.brand + item}>
-                {convertCount(row[item])}
-              </div>
-            );
-          }
-          // noinspection JSUnresolvedVariable
-          return (
-            <div className="col" key={row.brand + item}>
-              {row[`${item}_percent`]}%
-            </div>
-          );
-        })}
-        <div className="col rounded-end">
-          {numType === `count`
-            ? convertCount(row.total)
-            : `${row.total_percent}%`}
-        </div>
+      <div className="rowspan2 rounded-end" style={lastHeader}>
+        {headers[headers.length - 1].name}
       </div>
-    );
-  });
+      {data.map((row, rowIndex) => {
+        const startLine = rowIndex + 3;
+        const styleDataRow = {
+          gridRow: `${startLine} / span 1`,
+        };
+        // noinspection JSUnresolvedVariable
+        return (
+          <>
+            <div className="rounded-start" style={styleDataRow}>
+              {row.brand}
+            </div>
+            {order.map((item) => {
+              if (numType === `count`) {
+                // noinspection JSUnresolvedVariable
+                return (
+                  <div key={row.brand + item} style={styleDataRow}>
+                    {convertCount(row[item])}
+                  </div>
+                );
+              }
+              // noinspection JSUnresolvedVariable
+              return (
+                <div key={row.brand + item} style={styleDataRow}>
+                  {row[`${item}_percent`]}%
+                </div>
+              );
+            })}
+            <div className="rounded-end" style={styleDataRow}>
+              {numType === `count`
+                ? convertCount(row.total)
+                : `${row.total_percent}%`}
+            </div>
+          </>
+        );
+      })}
+    </div>
+  );
 }
 
 function App() {
@@ -183,15 +206,18 @@ function App() {
                 Percent
               </button>
             </div>
+          </div>
+        </div>
 
-            <div className="container">
-              <TableHead headers={capitalized} />
-              <TableBody
-                data={allBrands.data}
-                order={dataOrder}
-                numType={numType}
-              />
-            </div>
+        <div className="row">
+          <div className="col">
+            <DataTable
+              headers={capitalized}
+              data={allBrands.data}
+              order={dataOrder}
+              numColumns={columnsRaw.length}
+              numType={numType}
+            />
           </div>
         </div>
       </div>
