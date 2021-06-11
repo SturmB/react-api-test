@@ -58,7 +58,7 @@ export function DataTable({ headers, data, order, numColumns, numType }) {
   };
 
   return (
-    <div className="grid fs-5" style={styleGrid}>
+    <div className="grid fs-6" style={styleGrid}>
       <div className="cell-brand rounded-start" style={firstHeader}>
         {headers[0].name}
       </div>
