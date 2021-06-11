@@ -1,5 +1,6 @@
 // Override default variables before the import
 $body-bg: #E5EDF1;
+$primary: #4386AB;
 
 // Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';
@@ -7,3 +8,36 @@ $body-bg: #E5EDF1;
 .grid {
   display: grid;
 }
+
+.grid div {
+  padding: 0.25em 0.5em;
+  background-color: #fff;
+  text-align: center;
+  display: grid;
+  align-items: center;
+}
+
+.cell-brand, .cell-store, .cell-month, .cell-total {
+  color: $primary;
+  font-weight: 700;
+}
+
+.cell-brand, .cell-month, .cell-total {
+  margin-bottom: 1rem;
+}
+
+.cell-brand-name, .cell-data, .cell-brand-total {
+  margin-bottom: 0.5rem;
+}
+
+.cell-brand, .cell-store, .gap-right {
+  margin-right: 1px;
+}
+
+.cell-store {
+  margin-bottom: 1px;
+}
+
+//.cell-month: {
+//  margin-right: 1px;
+//}

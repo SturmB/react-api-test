@@ -51,15 +51,17 @@ export function DataTable({ headers, data, order, numColumns, numType }) {
     gridTemplateRows: `repeat(${data.length + 2}, auto)`,
   };
   const firstHeader = {
-    gridArea: `1 / 1 / span 2 / 2`,
+    gridArea: `1 / 1 / span 2 / span 1`,
   };
   const lastHeader = {
     gridArea: `1 / ${numColumns} / span 2 / span 1`,
   };
 
   return (
-    <div className="grid bg-white" style={styleGrid}>
-      <div className="rounded-start border-end" style={firstHeader}>{headers[0].name}</div>
+    <div className="grid" style={styleGrid}>
+      <div className="cell-brand rounded-start" style={firstHeader}>
+        {headers[0].name}
+      </div>
       {headers.map((store, storeIndex) => {
         if (store.hasOwnProperty(`months`)) {
           const colspan = store.months.length;
@@ -71,7 +73,7 @@ export function DataTable({ headers, data, order, numColumns, numType }) {
             <>
               <div
                 key={store.name}
-                className="border-bottom border-end"
+                className="cell-store"
                 style={styleColSpan}
               >
                 {store.name}
@@ -82,9 +84,9 @@ export function DataTable({ headers, data, order, numColumns, numType }) {
                     startLine + monthIndex + 1
                   }`,
                 };
-                let borderClass = ``;
+                let borderClass = `cell-month`;
                 if (monthIndex === monthArray.length - 1) {
-                  borderClass = `border-end`;
+                  borderClass = `cell-month gap-right`;
                 }
                 return (
                   <div
@@ -101,7 +103,7 @@ export function DataTable({ headers, data, order, numColumns, numType }) {
         }
         return null;
       })}
-      <div className="rowspan2 rounded-end" style={lastHeader}>
+      <div className="cell-total rowspan2 rounded-end" style={lastHeader}>
         {headers[headers.length - 1].name}
       </div>
       {data.map((row, rowIndex) => {
@@ -112,26 +114,34 @@ export function DataTable({ headers, data, order, numColumns, numType }) {
         // noinspection JSUnresolvedVariable
         return (
           <>
-            <div className="rounded-start" style={styleDataRow}>
+            <div className="cell-brand-name rounded-start" style={styleDataRow}>
               {row.brand}
             </div>
             {order.map((item) => {
               if (numType === `count`) {
                 // noinspection JSUnresolvedVariable
                 return (
-                  <div key={row.brand + item} style={styleDataRow}>
+                  <div
+                    key={row.brand + item}
+                    className="cell-data"
+                    style={styleDataRow}
+                  >
                     {convertCount(row[item])}
                   </div>
                 );
               }
               // noinspection JSUnresolvedVariable
               return (
-                <div key={row.brand + item} style={styleDataRow}>
+                <div
+                  key={row.brand + item}
+                  className="cell-data"
+                  style={styleDataRow}
+                >
                   {row[`${item}_percent`]}%
                 </div>
               );
             })}
-            <div className="rounded-end" style={styleDataRow}>
+            <div className="cell-brand-total rounded-end" style={styleDataRow}>
               {numType === `count`
                 ? convertCount(row.total)
                 : `${row.total_percent}%`}
@@ -179,11 +189,11 @@ function App() {
     });
 
     return (
-      <div className="container">
+      <div className="container fs-5">
         <div className="row">
           <div className="col">
             <div
-              className="btn-group"
+              className="btn-group py-3"
               role="group"
               aria-label="Switch between number types"
             >
