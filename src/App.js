@@ -71,11 +71,7 @@ export function DataTable({ headers, data, order, numColumns, numType }) {
           };
           return (
             <>
-              <div
-                key={store.name}
-                className="cell-store"
-                style={styleColSpan}
-              >
+              <div key={store.name} className="cell-store" style={styleColSpan}>
                 {store.name}
               </div>
               {store.months.map((month, monthIndex, monthArray) => {
@@ -118,7 +114,7 @@ export function DataTable({ headers, data, order, numColumns, numType }) {
               {row.brand}
             </div>
             {order.map((item) => {
-              if (numType === `count`) {
+              if (numType === `Count`) {
                 // noinspection JSUnresolvedVariable
                 return (
                   <div
@@ -142,7 +138,7 @@ export function DataTable({ headers, data, order, numColumns, numType }) {
               );
             })}
             <div className="cell-brand-total rounded-end" style={styleDataRow}>
-              {numType === `count`
+              {numType === `Count`
                 ? convertCount(row.total)
                 : `${row.total_percent}%`}
             </div>
@@ -153,9 +149,34 @@ export function DataTable({ headers, data, order, numColumns, numType }) {
   );
 }
 
+export function ToggleGroup({ numTypes, numType, setNumType }) {
+  return (
+    <div
+      className="btn-group py-3"
+      role="group"
+      aria-label="Switch between number types"
+    >
+      {numTypes.map((type) => (
+        <button
+          key={type}
+          type="button"
+          className={`btn ${
+            type === numType ? "btn-primary" : "btn-outline-primary"
+          }`}
+          onClick={() => setNumType(type)}
+        >
+          {type}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function App() {
+  const numTypes = [`Count`, `Percent`];
+
   const [allBrands, setAllBrands] = useState(null);
-  const [numType, setNumType] = useState(`count`);
+  const [numType, setNumType] = useState(numTypes[0]);
 
   useEffect(() => {
     fetch("./data.json")
@@ -190,32 +211,14 @@ function App() {
 
     return (
       <div className="container fs-5">
+
         <div className="row">
           <div className="col">
-            <div
-              className="btn-group py-3"
-              role="group"
-              aria-label="Switch between number types"
-            >
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => {
-                  setNumType(`count`);
-                }}
-              >
-                Count
-              </button>
-              <button
-                type="button"
-                className="btn btn-outline-primary"
-                onClick={() => {
-                  setNumType(`percent`);
-                }}
-              >
-                Percent
-              </button>
-            </div>
+            <ToggleGroup
+              numTypes={numTypes}
+              numType={numType}
+              setNumType={setNumType}
+            />
           </div>
         </div>
 
@@ -230,6 +233,7 @@ function App() {
             />
           </div>
         </div>
+
       </div>
     );
   }
