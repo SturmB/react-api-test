@@ -1,9 +1,17 @@
 // Override default variables before the import
-$body-bg: #E5EDF1;
-$primary: #4386AB;
+$body-bg: #e5edf1;
+$primary: #4386ab;
 
 // Import Bootstrap and its default variables
-@import '~bootstrap/scss/bootstrap.scss';
+@import "~bootstrap/scss/bootstrap.scss";
+
+.btn-primary {
+  @include button-variant($primary, $primary, #fff);
+}
+
+.btn-outline-primary {
+  @include button-outline-variant($primary, #fff, $primary, $primary, #fff);
+}
 
 .grid {
   display: grid;
@@ -17,27 +25,34 @@ $primary: #4386AB;
   align-items: center;
 }
 
-.cell-brand, .cell-store, .cell-month, .cell-total {
+.cell-brand,
+.cell-store,
+.cell-month,
+.cell-total {
   color: $primary;
   font-weight: 700;
 }
 
-.cell-brand, .cell-month, .cell-total {
+.cell-brand,
+.cell-month,
+.cell-total {
   margin-bottom: 1rem;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.02);
 }
 
-.cell-brand-name, .cell-data, .cell-brand-total {
+.cell-brand-name,
+.cell-data,
+.cell-brand-total {
   margin-bottom: 0.5rem;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.02);
 }
 
-.cell-brand, .cell-store, .gap-right {
+.cell-brand,
+.cell-store,
+.gap-right {
   margin-right: 1px;
 }
 
 .cell-store {
   margin-bottom: 1px;
 }
-
-//.cell-month: {
-//  margin-right: 1px;
-//}

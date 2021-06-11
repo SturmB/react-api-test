@@ -58,7 +58,7 @@ export function DataTable({ headers, data, order, numColumns, numType }) {
   };
 
   return (
-    <div className="grid" style={styleGrid}>
+    <div className="grid fs-5" style={styleGrid}>
       <div className="cell-brand rounded-start" style={firstHeader}>
         {headers[0].name}
       </div>
@@ -110,7 +110,7 @@ export function DataTable({ headers, data, order, numColumns, numType }) {
         // noinspection JSUnresolvedVariable
         return (
           <>
-            <div className="cell-brand-name rounded-start" style={styleDataRow}>
+            <div className="cell-brand-name rounded-start text-start" style={styleDataRow}>
               {row.brand}
             </div>
             {order.map((item) => {
@@ -152,7 +152,7 @@ export function DataTable({ headers, data, order, numColumns, numType }) {
 export function ToggleGroup({ numTypes, numType, setNumType }) {
   return (
     <div
-      className="btn-group py-3"
+      className="btn-group px-5 py-3"
       role="group"
       aria-label="Switch between number types"
     >
@@ -160,7 +160,7 @@ export function ToggleGroup({ numTypes, numType, setNumType }) {
         <button
           key={type}
           type="button"
-          className={`btn ${
+          className={`btn text-uppercase ${
             type === numType ? "btn-primary" : "btn-outline-primary"
           }`}
           onClick={() => setNumType(type)}
@@ -210,10 +210,11 @@ function App() {
     });
 
     return (
-      <div className="container fs-5">
+      <div className="container">
 
         <div className="row">
           <div className="col">
+            <span className="h5 fw-bold">Store Summary</span>
             <ToggleGroup
               numTypes={numTypes}
               numType={numType}
